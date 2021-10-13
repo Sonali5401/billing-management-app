@@ -1,0 +1,11 @@
+.form-layout{
+    width : 100%;
+    max-width : 450px;
+    margin : auto;
+    padding-top : 100px;
+}
+
+.navbar-custom {
+    background-color: #ff5500;
+    color : rgb(15, 4, 119)
+}
