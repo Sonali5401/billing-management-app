@@ -62,7 +62,7 @@ const ComponentPrint = (props) => {
                     <tr>
                         <td>{invoiceObj._id}</td>
                         <td> {(customerList.find((item) => item._id === invoiceObj.customer)).name}</td>
-                        <td>{invoiceObj.createdAt}</td>
+                        <td>{invoiceObj.createdAt.slice(0,10)}</td>
                     </tr>
                     
                 </tbody>

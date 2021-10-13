@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from '../config/axiosConfig'
 
 /* GET TOKEN */
 const tokenStored = (localStorage.getItem('token'))
@@ -34,6 +34,7 @@ export const clearVeiwDetailObject = () =>{
     }
 }
 
+/* UPDATE CUSTOMER ACTION GENERATORS */
 export const updateCustomer = (updatedResponse) => {
     return {
         type : 'UPDATE_CUSTOMER',
@@ -41,6 +42,7 @@ export const updateCustomer = (updatedResponse) => {
     }
 }
 
+/* DELETE CUSTOMER ACTION GENERATORS */
 export const deleteCustomer = (id) => {
     return {
         type : 'DELETE_CUSTOMER',
@@ -51,9 +53,7 @@ export const deleteCustomer = (id) => {
 /* ADD CUSTOMER :  MIDDLEWARE*/
 export const startAddCustomer = (customerData) =>{
     return ((dispatch) => {
-        axios.post('http://dct-billing-app.herokuapp.com/api/customers', 
-                    customerData,
-                    { headers: { "Authorization" : `Bearer ${tokenStored}`} })
+        axios.post('/customers', customerData,{ headers: { "Authorization" : `Bearer ${tokenStored}`} })
             .then((response) => {
                 const result = response.data
                 if(result.hasOwnProperty('errors')){
@@ -72,7 +72,7 @@ export const startAddCustomer = (customerData) =>{
 /* GET ALL CUSTOMERS : MIDDLEWARE */
 export const startGetAllCustomers = () => {
     return ((dispatch) =>{
-        axios.get('http://dct-billing-app.herokuapp.com/api/customers',{ headers: { "Authorization" : `Bearer ${tokenStored}`}} )
+        axios.get('/customers',{ headers: { "Authorization" : `Bearer ${tokenStored}`}} )
             .then((response) => {
                 const result = response.data
                 dispatch(listOfCustomers(result))
@@ -88,7 +88,7 @@ export const startGetAllCustomers = () => {
 /* FETCH DETAIL OF SELECTED CUSTOMER BY USER : MIDDLEWARE */
 export const startViewCustomerDetail = (id) => {
     return ((dispatch) => {
-        axios.get(`http://dct-billing-app.herokuapp.com/api/customers/${id}`, { headers: { "Authorization" : `Bearer ${tokenStored}`}} )
+        axios.get(`/customers/${id}`, { headers: { "Authorization" : `Bearer ${tokenStored}`}} )
             .then((response) => {
                 const result = response.data
                 dispatch(viewCustomerDetail(result))
@@ -100,9 +100,10 @@ export const startViewCustomerDetail = (id) => {
 
 }
 
+/* FUPDATE CUSTOMER : MIDDLEWARE */
 export const startUpdateCustomer = (updatedData, id) => {
     return ((dispatch) => {
-        axios.put(`http://dct-billing-app.herokuapp.com/api/customers/${id}`,updatedData, { headers: { "Authorization" : `Bearer ${tokenStored}`}} )
+        axios.put(`/customers/${id}`,updatedData, { headers: { "Authorization" : `Bearer ${tokenStored}`}} )
             .then((response) => {
                 const data = response.data
 
@@ -123,7 +124,7 @@ export const startUpdateCustomer = (updatedData, id) => {
 /* DELETE CUSTOMER : MIDDLEWARE */
 export const startCustomerDelete = (id) => {
     return ((dispatch) => {
-        axios.delete(`http://dct-billing-app.herokuapp.com/api/customers/${id}`, { headers: { "Authorization" : `Bearer ${tokenStored}`}})
+        axios.delete(`/customers/${id}`, { headers: { "Authorization" : `Bearer ${tokenStored}`}})
             .then((response) => {
                 const result = response.data
                 console.log('result._id', result._id)

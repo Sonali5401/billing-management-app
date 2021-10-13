@@ -1,26 +1,38 @@
-import axios from 'axios'
+import axios from '../config/axiosConfig'
 import Swal from 'sweetalert2'
 
+export const loginUser = () => {
+    return {
+        type : 'LOGIN_USER'
+    }
+}
+
+export const registerUser = () => {
+    return {
+        type : 'REGISTER_USER'
+    }
+}
+
+export const logOutUser = () => {
+    return {
+        type : 'LOGOUT_USER'
+    }
+}
+
+/* REGISTER USER : MIDDLEWARE */
 export const startRegisterUser = (formData,history, handleAuth ) => {
-    
     return ((dispatch) => {
 
-         axios.post('http://dct-billing-app.herokuapp.com/api/users/register',formData)
+         axios.post('/users/register',formData)
             .then((response) => {
                 const result = response.data
-                //console.log(' startRegisterUser : result',result)
                 
                 if(result.hasOwnProperty('errmsg')){
                     alert(result.errmsg)
                     alert('User already exist. Please choose another Username and Email.')
                 } else {
-                    
                     dispatch(registerUser())
-                    Swal.fire(
-                        'Successfully created new Account!',
-                        'You clicked the button!',
-                        'success'
-                      )
+                    alert('Successfully Created New Account')
                     history.push('/login')
                     handleAuth()
                 }
@@ -33,9 +45,10 @@ export const startRegisterUser = (formData,history, handleAuth ) => {
     })
 }
 
+/* LOGIN USER : MIDDLEWARE */
 export const startLoginUser = (formData,history) =>{
     return (dispatch) => {
-        axios.post('http://dct-billing-app.herokuapp.com/api/users/login',formData)
+        axios.post('/users/login',formData)
                 .then((response) => {
                     const result = response.data
                     if(result.hasOwnProperty('errors')){
@@ -57,22 +70,5 @@ export const startLoginUser = (formData,history) =>{
 
 }
 
-export const loginUser = () => {
-    return {
-        type : 'LOGIN_USER'
-    }
-}
 
-
-export const registerUser = () => {
-    return {
-        type : 'REGISTER_USER'
-    }
-}
-
-export const logOutUser = () => {
-    return {
-        type : 'LOGOUT_USER'
-    }
-}
 

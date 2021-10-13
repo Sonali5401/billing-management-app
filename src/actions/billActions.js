@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from '../config/axiosConfig'
 
 /* GET TOKEN */
 const tokenStored = (localStorage.getItem('token'))
@@ -46,9 +46,10 @@ export const deleteBill = (id) => {
     }
 }
 
+/* GET ALL BILLS : MIDDLEWARE */
 export const startGetAllBills = () =>{
     return ((dispatch) =>{
-        axios.get('http://dct-billing-app.herokuapp.com/api/bills',{ headers: { "Authorization" : `Bearer ${tokenStored}`} })
+        axios.get('/bills',{ headers: { "Authorization" : `Bearer ${tokenStored}`} })
             .then((response) => {
                 //console.log('getAllBills',response.data)
                 dispatch(listAllBills(response.data))
@@ -60,10 +61,11 @@ export const startGetAllBills = () =>{
 
 }
 
+/* CREATE NEW BILL : MIDDLEWARE */
 export const startCreateBill = (billData,history) => {
 
     return ((dispatch) => {
-        axios.post('http://dct-billing-app.herokuapp.com/api/bills',billData,{ headers: { "Authorization" : `Bearer ${tokenStored}`} })
+        axios.post('/bills',billData,{ headers: { "Authorization" : `Bearer ${tokenStored}`} })
             .then((response) =>{
                 const data = response.data
                 console.log('received data',data)
@@ -78,9 +80,10 @@ export const startCreateBill = (billData,history) => {
     })
 }
 
+/* VIEW SELECTED BILL DETAILS : MIDDLEWARE */
 export const startViewBillDetails = (id) => {
     return ((dispatch) => {
-        axios.get(`http://dct-billing-app.herokuapp.com/api/bills/${id}`, { headers: { "Authorization" : `Bearer ${tokenStored}`}})
+        axios.get(`bills/${id}`, { headers: { "Authorization" : `Bearer ${tokenStored}`}})
             .then((response) => {
                 //console.log('bill detail',response.data)
                 dispatch(viewBill(response.data))
@@ -92,9 +95,10 @@ export const startViewBillDetails = (id) => {
     })
 }
 
+/* DELETE BILL : MIDDLEWARE */
 export const startBillDelete = (id) => {
     return((dispatch) => {
-        axios.delete(`http://dct-billing-app.herokuapp.com/api/bills/${id}`, { headers: { "Authorization" : `Bearer ${tokenStored}`}})
+        axios.delete(`/bills/${id}`, { headers: { "Authorization" : `Bearer ${tokenStored}`}})
         .then((response) => {
             const result = response.data
             console.log('result._id', result._id)

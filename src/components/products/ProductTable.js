@@ -59,7 +59,7 @@ const ProductTable = (props) => {
     }
    
     return (
-        <div>
+        <div className = "m-2">
             <Table striped bordered hover className = 'table-success' >
                 <thead>
                     <tr>

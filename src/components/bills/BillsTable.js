@@ -15,11 +15,10 @@ const BillsTable = (props) => {
         return state.bills.billItems
     })
 
-    //console.log('bills',bills)
+    console.log('bills',bills)
 
     const customerList = useSelector((state) => state.customers.customerList)
-    //console.log('customerList', customerList)
-
+    
     /*CLOSING MODAL AND CLEARING VIEWDETAIL OBJ */
     const handleShowDetailsClose = () => {
 
@@ -29,7 +28,6 @@ const BillsTable = (props) => {
 
     const handleShowDetails = (id) => {
        dispatch(startViewBillDetails(id))
-       //setShowDetails(true)
        setTimeout(() => { setShowDetails(true) }, 800);
 
    }
@@ -57,6 +55,7 @@ const BillsTable = (props) => {
                     <th>#</th>
                     <th>Bill ID</th>
                     <th>Customer</th>
+                    <th>Bill amount</th>
                     <th>Date</th>
                     <th>Details</th>
                     <th>Delete</th>
@@ -70,7 +69,8 @@ const BillsTable = (props) => {
                                 <td>{index +1}</td>
                                 <td>{ele._id} </td>
                                 <td>{(customerList.find((item) => item._id === ele.customer)).name}</td>
-                                <td>{ele.date}</td>
+                                <td>{ele.total} INR</td>
+                                <td>{ele.date.slice(0,10)}</td>
                                 <td><BsFillEyeFill onClick = {() => {handleShowDetails(ele._id)}} /></td>
                                 <td><BsTrashFill onClick = {() =>{ handleDeleteBill(ele._id)}}/></td>
                             </tr>

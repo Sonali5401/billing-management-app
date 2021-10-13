@@ -1,8 +1,9 @@
-import axios from 'axios'
+import axios from '../config/axiosConfig'
 
 /* GET TOKEN */
 const tokenStored = (localStorage.getItem('token'))
 
+/* ADD PRODUCT ACTION GENERATOR */
 export const addProduct = (newItem) => {
     return {
         type : 'ADD_PRODUCT',
@@ -10,6 +11,7 @@ export const addProduct = (newItem) => {
     }
 }
 
+/* LIST ALL PRODUCT ACTION GENERATOR */
 export const listOfProducts = (list) => {
     return {
         type : 'LIST_ALL_PRODUCTS',
@@ -17,6 +19,7 @@ export const listOfProducts = (list) => {
     }
 }
 
+/* FETCHED SELECTED PRODUCT DETAIL - ACTION GENERATOR */
 export const viewProductDetail = (result) => {
     return {
         type : 'VIEW_PRODUCT_DETAILS',
@@ -24,12 +27,14 @@ export const viewProductDetail = (result) => {
     }
 }
 
+/* CLEAR VIEW DETAIL OBJECT ON MODAL CLOSURE*/
 export const clearVeiwDetailObject = () =>{
     return {
         type : 'CLEAR_DETAIL_OBJ'
     }
 }
 
+/* UPDATE PRODUCT ACTION GENERATOR */
 export const updateProduct = (updatedResponse) => {
     return {
         type : 'UPDATE_PRODUCT',
@@ -37,6 +42,7 @@ export const updateProduct = (updatedResponse) => {
     }
 }
 
+/* DELETE PRODUCT ACTION GENERATOR */
 export const deleteProduct = (id) => {
     return {
         type : 'DELETE_PRODUCT',
@@ -44,12 +50,11 @@ export const deleteProduct = (id) => {
     }
 }
 
+/* ADD PRODUCT :  MIDDLEWARE*/
 export const startAddProduct = (productData) =>{
     return ((dispatch) => {
 
-        axios.post('http://dct-billing-app.herokuapp.com/api/products',
-                    productData,
-                    { headers: { "Authorization" : `Bearer ${tokenStored}`} })
+        axios.post('/products', productData,{ headers: { "Authorization" : `Bearer ${tokenStored}`} })
             .then((response) => {
                 const result = response.data
                 if(result.hasOwnProperty('errors')){
@@ -65,9 +70,10 @@ export const startAddProduct = (productData) =>{
     })
 }
 
+/* lIST ALL PRODUCT :  MIDDLEWARE*/
 export const startGetAllProducts = () => {
     return ((dispatch) =>{
-        axios.get('http://dct-billing-app.herokuapp.com/api/products',{ headers: { "Authorization" : `Bearer ${tokenStored}`}} )
+        axios.get('/products',{ headers: { "Authorization" : `Bearer ${tokenStored}`}} )
             .then((response) => {
                 const result = response.data
                 dispatch(listOfProducts(result))
@@ -80,9 +86,10 @@ export const startGetAllProducts = () => {
     })
 }
 
+/* FETCH SELECTED PRODUCT DETAILS :  MIDDLEWARE*/
 export const startViewProductDetail = (id) => {
     return ((dispatch) => {
-        axios.get(`http://dct-billing-app.herokuapp.com/api/products/${id}`, { headers: { "Authorization" : `Bearer ${tokenStored}`}} )
+        axios.get(`/products/${id}`, { headers: { "Authorization" : `Bearer ${tokenStored}`}} )
             .then((response) => {
                 const result = response.data
                 dispatch(viewProductDetail(result))
@@ -94,9 +101,10 @@ export const startViewProductDetail = (id) => {
 
 }
 
+/* UPDATE PRODUCT DETAIL:  MIDDLEWARE*/
 export const startUpdateProduct = (updatedData, id) => {
     return ((dispatch) => {
-        axios.put(`http://dct-billing-app.herokuapp.com/api/products/${id}`,updatedData, { headers: { "Authorization" : `Bearer ${tokenStored}`}} )
+        axios.put(`/products/${id}`,updatedData, { headers: { "Authorization" : `Bearer ${tokenStored}`}} )
             .then((response) => {
                 const data = response.data
 
@@ -114,9 +122,10 @@ export const startUpdateProduct = (updatedData, id) => {
     })
 }
 
+/* DELETE PRODUCT :  MIDDLEWARE*/
 export const startProductDelete = (id) => {
     return ((dispatch) => {
-        axios.delete(`http://dct-billing-app.herokuapp.com/api/products/${id}`, { headers: { "Authorization" : `Bearer ${tokenStored}`}})
+        axios.delete(`/products/${id}`, { headers: { "Authorization" : `Bearer ${tokenStored}`}})
             .then((response) => {
                 const result = response.data
                 dispatch(deleteProduct(result._id))  
